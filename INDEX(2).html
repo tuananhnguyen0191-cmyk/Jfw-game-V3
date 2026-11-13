@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sau buổi JFW - AT phản hồi thế nào? | Prudential Academy</title>
+  <style>
+    :root {
+      --pru-red: #ED1B2E;
+      --pru-red-dark: #C8102E;
+      --pru-red-light: #FFF1F2;
+      --pru-gray-dark: #1F2937;
+      --pru-gray-text: #4B5563;
+      --pru-gray-bg: #F3F4F6;
+      --pru-border: #E5E7EB;
+      --success-bg: #ECFDF5;
+      --success-border: #10B981;
+      --success-text: #065F46;
+      --warn-bg: #FFFBEB;
+      --warn-border: #F59E0B;
+      --warn-text: #92400E;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--pru-gray-bg);
+      color: var(--pru-gray-dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 12px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 540px;
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      margin: 4px 0 20px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--pru-red) 0%, var(--pru-red-dark) 100%);
+      color: #FFFFFF;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+
+    .score-badge {
+      background: rgba(255, 255, 255, 0.22);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .screen {
+      padding: 20px;
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .pill {
+      display: inline-block;
+      background: var(--pru-red-light);
+      color: var(--pru-red);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 21px;
+      line-height: 1.25;
+      color: var(--pru-gray-dark);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--pru-gray-text);
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+
+    .how-to-play {
+      background: #F9FAFB;
+      border: 1px solid var(--pru-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .how-to-play p {
+      font-size: 13px;
+      color: var(--pru-gray-text);
+      line-height: 1.45;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 440px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--pru-border);
+      border-radius: 10px;
+      background: #FFFFFF;
+    }
+
+    .skill-icon {
+      font-size: 18px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .skill-info strong {
+      display: block;
+      font-size: 13px;
+      color: var(--pru-gray-dark);
+      margin-bottom: 2px;
+    }
+
+    .skill-info span {
+      display: block;
+      font-size: 12px;
+      color: var(--pru-gray-text);
+      line-height: 1.35;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--pru-red);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.4px;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--pru-red-dark);
+    }
+
+    .btn-primary:disabled {
+      background: #D1D5DB;
+      cursor: not-allowed;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: #E5E7EB;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--pru-red);
+      width: 20%;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .question-num {
+      color: var(--pru-gray-text);
+    }
+
+    .level-badge {
+      background: var(--pru-red-light);
+      color: var(--pru-red);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+    }
+
+    .scenario-box {
+      background: #F9FAFB;
+      border-left: 4px solid var(--pru-red);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .scenario-context {
+      font-size: 13px;
+      color: var(--pru-gray-text);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .rookie-quote {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--pru-gray-dark);
+      line-height: 1.45;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .option-btn {
+      text-align: left;
+      background: #FFFFFF;
+      border: 2px solid var(--pru-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: var(--pru-gray-dark);
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #9CA3AF;
+      background: #F9FAFB;
+    }
+
+    .option-btn.selected {
+      border-color: var(--pru-red);
+      background: var(--pru-red-light);
+    }
+
+    .option-btn.correct {
+      border-color: var(--success-border);
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .option-btn.wrong {
+      border-color: #EF4444;
+      background: #FEF2F2;
+      color: #991B1B;
+    }
+
+    .option-letter {
+      font-weight: 800;
+      min-width: 20px;
+    }
+
+    .feedback-box {
+      display: none;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+
+    .feedback-box.show {
+      display: block;
+    }
+
+    .feedback-box.is-correct {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-text);
+    }
+
+    .feedback-box.is-wrong {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-text);
+    }
+
+    .feedback-title {
+      font-weight: 800;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .result-card {
+      text-align: center;
+      padding: 8px 0 12px;
+    }
+
+    .result-score {
+      font-size: 46px;
+      font-weight: 800;
+      color: var(--pru-red);
+      margin: 8px 0;
+    }
+
+    .result-msg {
+      font-size: 14.5px;
+      color: var(--pru-gray-text);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .flow-banner {
+      background: #F9FAFB;
+      border: 1px solid var(--pru-border);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--pru-gray-dark);
+      margin-bottom: 18px;
+      line-height: 1.55;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 11.5px;
+      color: #9CA3AF;
+      padding: 0 20px 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="header">
+    <span class="brand-tag">Prudential • Agency Academy</span>
+    <span class="score-badge" id="scoreDisplay">ĐIỂM: 0/50</span>
+  </div>
+
+  <!-- Màn hình 1: Mở đầu -->
+  <div class="screen active" id="introScreen">
+    <span class="pill">VÒNG 3: SAU BUỔI JFW • 5 CÂU • 3–5 PHÚT</span>
+    <h1>SAU BUỔI JFW, AT PHẢN HỒI THẾ NÀO?</h1>
+    <p class="subtitle">Ôn nhanh 4 kỹ năng Debrief giúp kiến tạo năng lực tự chủ cho Rookie theo cấp độ I – WE – YOU.</p>
+
+    <div class="how-to-play">
+      <p><strong>Cách chơi:</strong> Đọc tình huống thực tế của Rookie sau buổi JFW và chạm chọn cách phản hồi phù hợp nhất của Giảng viên (AT). Xem ngay phân tích sau mỗi câu.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-item">
+        <span class="skill-icon">🧩</span>
+        <div class="skill-info">
+          <strong>Bóc tách quy trình</strong>
+          <span>Chuyển buổi mẫu thành các bước sao chép được.</span>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon">🌟</span>
+        <div class="skill-info">
+          <strong>Ghi nhận & Định vị</strong>
+          <span>Khen điểm sáng trước và hiểu đúng mục tiêu JFW.</span>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon">❓</span>
+        <div class="skill-info">
+          <strong>Hỏi khơi gợi tự chủ</strong>
+          <span>Dùng câu hỏi mở để Rookie tự nhận diện giải pháp.</span>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-icon">⚡</span>
+        <div class="skill-info">
+          <strong>Phản hồi kịp thời</strong>
+          <span>Debrief nóng 30p–24h và khóa 1 cam kết cụ thể.</span>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn-primary" id="startBtn">BẮT ĐẦU THỬ THÁCH</button>
+  </div>
+
+  <!-- Màn hình 2: Câu hỏi -->
+  <div class="screen" id="quizScreen">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+
+    <div class="meta-row">
+      <span class="question-num" id="questionCounter">CÂU 1 / 5</span>
+      <span class="level-badge" id="levelTag">THẺ 7 • CẤP I</span>
+    </div>
+
+    <div class="scenario-box">
+      <div class="scenario-context" id="scenarioContext"></div>
+      <div class="rookie-quote" id="rookieQuote"></div>
+    </div>
+
